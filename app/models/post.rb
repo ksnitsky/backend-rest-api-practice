@@ -5,6 +5,12 @@ class Post < ApplicationRecord
   has_many :post_tags, dependent: :destroy
   has_many :tags, through: :post_tags
 
+  validates :title,
+            presence: true,
+            length: { minimum: 3 }
+  validates :content,
+            presence: true
+
   def category_title=(category)
     new_or_found_category = Category.find_or_create_by(title: category.downcase)
     self.category = new_or_found_category

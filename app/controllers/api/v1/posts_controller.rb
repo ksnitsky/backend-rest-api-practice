@@ -1,27 +1,32 @@
 class Api::V1::PostsController < Api::V1::BaseController
-  before_action :set_post, only: [:show]
+  before_action :set_post, only: %i[update show destroy]
+  before_action :authenticate_request!, only: %i[create update destroy]
 
   def index
     @posts = Post.all
   end
 
   def create
-    @post = Post.create(post_params)
+    @post = current_user!.posts.create(post_params)
+
     if @post.save
       render :show, status: :created
     else
-      render json: { message: @user.error.full_messages },
+      render json: @post.errors,
              status: :unprocessable_entity
     end
   end
 
   def update
+    @post.update(post_params)
+    head :no_content
   end
 
-  def show
-  end
+  def show; end
 
   def destroy
+    @post.destroy
+    head :no_content
   end
 
   private
@@ -31,13 +36,12 @@ class Api::V1::PostsController < Api::V1::BaseController
   end
 
   def post_params
-    params.require(:post)
-          .permit(
-            :title,
-            :content,
-            :category_title,
-            :author_id,
-            :tag_list
-          )
+    params.permit(
+      :title,
+      :content,
+      :category_title,
+      :author_id,
+      :tag_list
+    )
   end
 end

@@ -58,6 +58,7 @@
     <orderEntry type="library" scope="PROVIDED" name="globalid (v1.0.0, RVM: ruby-3.1.1) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="i18n (v1.10.0, RVM: ruby-3.1.1) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jbuilder (v2.11.5, RVM: ruby-3.1.1) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="jwt (v2.3.0, RVM: ruby-3.1.1) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="loofah (v2.17.0, RVM: ruby-3.1.1) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mail (v2.7.1, RVM: ruby-3.1.1) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="marcel (v1.0.2, RVM: ruby-3.1.1) [gem]" level="application" />
@@ -389,28 +390,15 @@
           <RakeTaskImpl description="Restart app by touching tmp/restart.txt" fullCommand="restart" id="restart" />
           <RakeTaskImpl description="Generate a cryptographically secure secret key (this is typically used to generate a secret for cookie sessions)" fullCommand="secret" id="secret" />
           <RakeTaskImpl description="Run all specs in spec directory (excluding plugin specs)" fullCommand="spec" id="spec" />
-          <RakeTaskImpl description="Report code statistics (KLOCs, etc) from the application or engine" fullCommand="stats" id="stats" />
-          <RakeTaskImpl description="Runs all tests in test folder except system ones" fullCommand="test" id="test" />
-          <RakeTaskImpl id="test">
+          <RakeTaskImpl id="spec">
             <subtasks>
-              <RakeTaskImpl description="Runs all tests, including system tests" fullCommand="test:all" id="all" />
-              <RakeTaskImpl description="Run tests quickly, but also reset db" fullCommand="test:db" id="db" />
-              <RakeTaskImpl description="Run system tests only" fullCommand="test:system" id="system" />
-              <RakeTaskImpl description="" fullCommand="test:channels" id="channels" />
-              <RakeTaskImpl description="" fullCommand="test:controllers" id="controllers" />
-              <RakeTaskImpl description="" fullCommand="test:functionals" id="functionals" />
-              <RakeTaskImpl description="" fullCommand="test:generators" id="generators" />
-              <RakeTaskImpl description="" fullCommand="test:helpers" id="helpers" />
-              <RakeTaskImpl description="" fullCommand="test:integration" id="integration" />
-              <RakeTaskImpl description="" fullCommand="test:jobs" id="jobs" />
-              <RakeTaskImpl description="" fullCommand="test:mailboxes" id="mailboxes" />
-              <RakeTaskImpl description="" fullCommand="test:mailers" id="mailers" />
-              <RakeTaskImpl description="" fullCommand="test:models" id="models" />
-              <RakeTaskImpl description="" fullCommand="test:prepare" id="prepare" />
-              <RakeTaskImpl description="" fullCommand="test:run" id="run" />
-              <RakeTaskImpl description="" fullCommand="test:units" id="units" />
+              <RakeTaskImpl description="Run the code examples in spec/models" fullCommand="spec:models" id="models" />
+              <RakeTaskImpl description="Run the code examples in spec/requests" fullCommand="spec:requests" id="requests" />
+              <RakeTaskImpl description="" fullCommand="spec:prepare" id="prepare" />
+              <RakeTaskImpl description="" fullCommand="spec:statsetup" id="statsetup" />
             </subtasks>
           </RakeTaskImpl>
+          <RakeTaskImpl description="Report code statistics (KLOCs, etc) from the application or engine" fullCommand="stats" id="stats" />
           <RakeTaskImpl id="time">
             <subtasks>
               <RakeTaskImpl description="List all time zones, list by two-letter country code (`bin/rails time:zones[US]`), or list by UTC offset (`bin/rails time:zones[-8]`)" fullCommand="time:zones[country_or_offset]" id="zones[country_or_offset]" />
@@ -474,12 +462,6 @@
                   <RakeTaskImpl description="" fullCommand="railties:install:migrations" id="migrations" />
                 </subtasks>
               </RakeTaskImpl>
-            </subtasks>
-          </RakeTaskImpl>
-          <RakeTaskImpl id="spec">
-            <subtasks>
-              <RakeTaskImpl description="" fullCommand="spec:prepare" id="prepare" />
-              <RakeTaskImpl description="" fullCommand="spec:statsetup" id="statsetup" />
             </subtasks>
           </RakeTaskImpl>
           <RakeTaskImpl description="" fullCommand="tmp" id="tmp" />
