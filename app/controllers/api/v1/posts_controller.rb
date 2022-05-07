@@ -27,7 +27,9 @@ class Api::V1::PostsController < Api::V1::BaseController
     head :no_content
   end
 
-  def show; end
+  def show
+    #  shows @post (defined in set_post method)
+  end
 
   def destroy
     @post.destroy

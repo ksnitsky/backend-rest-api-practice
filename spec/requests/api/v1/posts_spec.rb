@@ -7,7 +7,7 @@ RSpec.describe 'Posts', type: :request do
   let(:auth_token) { { 'Authorization' => AuthenticationTokenService.call(user.id) } }
 
   describe 'GET /posts' do
-    before { get '/api/v1/posts' }
+    before { get api_v1_posts_url }
 
     it 'returns posts' do
       expect(json).not_to be_empty
@@ -20,7 +20,7 @@ RSpec.describe 'Posts', type: :request do
   end
 
   describe 'GET /posts/:id' do
-    before { get "/api/v1/posts/#{post_id}" }
+    before { get "#{api_v1_posts_url}/#{post_id}" }
 
     context 'when post does not exist' do
       let(:post_id) { 0 }
@@ -40,21 +40,21 @@ RSpec.describe 'Posts', type: :request do
       {
         title: 'There was never a genius without a tincture of madness.',
         content: 'Mollitia iure omnis. Fugit non amet. Fugiat natus cumque.',
-        category_title: create(:category).title,
+        category_title: 'TestTitle1',
         tag_list: 'street, Godard, fingerstache, phlogiston'
       }
     end
 
-    before { post '/api/v1/posts', params: valid_attributes, headers: auth_token }
-
     context 'when request attributes are valid' do
+      before { post api_v1_posts_url, params: valid_attributes, headers: auth_token }
+
       it 'returns status code 201' do
         expect(response).to have_http_status(:created)
       end
     end
 
     context 'when an invalid request' do
-      before { post '/api/v1/posts', params: {}, headers: auth_token }
+      before { post api_v1_posts_url, params: {}, headers: auth_token }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(:unprocessable_entity)
@@ -66,10 +66,10 @@ RSpec.describe 'Posts', type: :request do
     end
   end
 
-  describe 'PUT /books/:id' do
+  describe 'PUT /posts/:id' do
     let(:valid_attributes) { { title: 'Updated title' } }
 
-    before { put "/api/v1/posts/#{post_id}", params: valid_attributes, headers: auth_token }
+    before { put "#{api_v1_posts_url}/#{post_id}", params: valid_attributes, headers: auth_token }
 
     context 'when post exists' do
       it 'returns status code 204' do
@@ -95,8 +95,8 @@ RSpec.describe 'Posts', type: :request do
     end
   end
 
-  describe 'DELETE /books/:id' do
-    before { delete "/api/v1/posts/#{post_id}", headers: auth_token }
+  describe 'DELETE /posts/:id' do
+    before { delete "#{api_v1_posts_url}/#{post_id}", headers: auth_token }
 
     it 'returns status code 204' do
       expect(response).to have_http_status(:no_content)
