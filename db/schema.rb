@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_03_071836) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_07_064237) do
   create_table "categories", force: :cascade do |t|
     t.string "title", null: false
+  end
+
+  create_table "commentaries", force: :cascade do |t|
+    t.text "text"
+    t.integer "user_id", null: false
+    t.integer "post_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "rating", default: 0
+    t.index ["post_id"], name: "index_commentaries_on_post_id"
+    t.index ["user_id"], name: "index_commentaries_on_user_id"
   end
 
   create_table "post_tags", force: :cascade do |t|
@@ -31,6 +42,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_03_071836) do
     t.string "tags"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "comments"
     t.index ["category_id"], name: "index_posts_on_category_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
@@ -46,6 +58,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_03_071836) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "commentaries", "posts"
+  add_foreign_key "commentaries", "users"
   add_foreign_key "post_tags", "posts"
   add_foreign_key "post_tags", "tags"
   add_foreign_key "posts", "categories"

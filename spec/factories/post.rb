@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :post do
-    title { Faker::GreekPhilosophers.quote }
+    title { Faker::Movie.quote }
     content { Faker::Lorem.paragraph }
     category_title { create(:category).title }
     author_id { create(:user).id }
